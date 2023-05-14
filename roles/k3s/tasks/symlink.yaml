@@ -1,0 +1,10 @@
+---
+- name: Create symbolic links
+  ansible.builtin.include_tasks: create_symlink_if_not_exists.yaml
+  vars:
+    symlink_path : "/usr/local/bin/{{ item }}"
+    symlink_target: /usr/local/bin/k3s
+  loop:
+    - kubectl
+    - crictl
+    - ctr

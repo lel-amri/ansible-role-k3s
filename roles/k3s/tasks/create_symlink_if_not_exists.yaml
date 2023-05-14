@@ -1,0 +1,14 @@
+---
+- name: "Check symlink {{ symlink_path }}"
+  ansible.builtin.stat:
+    path: "{{ symlink_path }}"
+    follow: false
+  register: symlink_stat
+- name: "Create symlink {{ symlink_path }}"
+  ansible.builtin.file:
+    path: "{{ symlink_path }}"
+    src: "{{ symlink_target }}"
+    owner: root
+    group: root
+    state: link
+  when: "(not symlink_stat.stat.exists) or (symlink_stat.stat.islnk is defined and symlink_stat.stat.islnk)"

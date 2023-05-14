@@ -1,0 +1,6 @@
+---
+- block:
+    - ansible.builtin.import_tasks: download.yaml
+    - ansible.builtin.import_tasks: symlink.yaml
+    - ansible.builtin.import_tasks: service.yaml
+  when: "'k3s_cluster' in group_names"

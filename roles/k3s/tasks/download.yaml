@@ -1,0 +1,10 @@
+---
+- name: Download the k3s binary
+  ansible.builtin.get_url:
+    url: "{{ k3s_download_url }}"
+    checksum: "{{ k3s_download_checksum }}"
+    dest: /usr/local/bin/k3s
+    owner: root
+    group: root
+    mode: 0755
+  register: k3s_download_result

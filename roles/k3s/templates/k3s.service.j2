@@ -1,0 +1,36 @@
+{#
+This file is a modified version of some of the content of the file "install.sh"
+at commit "9bcfac8b8811919591719a497aa7204a96dc1df1" of the K3s Project (at
+https://github.com/k3s-io/k3s). The license for this file can be found at
+"LICENSES/LICENSE.SUSE.txt". The original file has been modified to allow Jinja2
+templating.
+#}
+[Unit]
+Description=Lightweight Kubernetes
+Documentation=https://k3s.io
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/default/%N
+EnvironmentFile=-/etc/sysconfig/%N
+EnvironmentFile=-/etc/systemd/system/{{ k3s_service_name }}.service.env
+KillMode=process
+Delegate=yes
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+TimeoutStartSec=0
+Restart=always
+RestartSec=5s
+ExecStartPre=/bin/sh -xc '! /usr/bin/systemctl is-enabled --quiet nm-cloud-setup.service'
+ExecStartPre=-/sbin/modprobe br_netfilter
+ExecStartPre=-/sbin/modprobe overlay
+ExecStart=/usr/local/bin/k3s {{ k3s_command_arguments | ansible.builtin.mandatory | map('ansible.builtin.quote') | join(' ') }}
