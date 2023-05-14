@@ -3,7 +3,7 @@
   ansible.builtin.stat:
     path: "{{ symlink_path }}"
     follow: false
-  register: symlink_stat
+  register: k3s_stat_result
 - name: "Create symlink {{ symlink_path }}"
   ansible.builtin.file:
     path: "{{ symlink_path }}"
@@ -11,4 +11,4 @@
     owner: root
     group: root
     state: link
-  when: "(not symlink_stat.stat.exists) or (symlink_stat.stat.islnk is defined and symlink_stat.stat.islnk)"
+  when: "(not k3s_stat_result.stat.exists) or (k3s_stat_result.stat.islnk is defined and k3s_stat_result.stat.islnk)"
