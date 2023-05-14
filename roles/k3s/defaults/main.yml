@@ -1,4 +1,6 @@
 ---
+#k3s_architecture: "amd64"
+#k3s_version: "v1.27.1+k3s1"
 k3s_download_url: "{% if (k3s_architecture | ansible.builtin.mandatory) == 'amd64' %}https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/k3s{% elif (k3s_architecture | ansible.builtin.mandatory) == 'arm64' %}https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/k3s-arm64{% elif (k3s_architecture | ansible.builtin.mandatory) == 'arm' %}https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/k3s-armhf{% endif %}"
 k3s_download_checksum: "{% if (k3s_architecture | ansible.builtin.mandatory) == 'amd64' %}sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/sha256sum-amd64.txt{% elif (k3s_architecture | ansible.builtin.mandatory) == 'arm64' %}sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/sha256sum-arm64.txt{% elif (k3s_architecture | ansible.builtin.mandatory) == 'arm' %}sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version | ansible.builtin.mandatory }}/sha256sum-arm.txt{% endif %}"
 #k3s_command_arguments:
